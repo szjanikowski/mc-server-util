@@ -1,0 +1,5 @@
+profile: grpc
+defaultPackage: com.itlibrium.mc
+---
+testFramework: junit
+sourceLanguage: java

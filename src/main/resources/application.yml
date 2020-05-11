@@ -1,0 +1,8 @@
+micronaut:
+  application:
+    name: mcutil
+
+grpc:
+  client:
+    plaintext: true
+    max-retry-attempts: 10
