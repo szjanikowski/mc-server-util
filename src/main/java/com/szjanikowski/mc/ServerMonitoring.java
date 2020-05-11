@@ -1,4 +1,4 @@
-package com.itlibrium.mc;
+package com.szjanikowski.mc;
 
 import io.micronaut.scheduling.annotation.Scheduled;
 import io.netty.util.internal.ThreadLocalRandom;

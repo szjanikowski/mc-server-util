@@ -1,4 +1,4 @@
-package com.itlibrium.mc;
+package com.szjanikowski.mc;
 
 import javax.inject.Singleton;
 
