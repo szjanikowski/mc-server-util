@@ -5,6 +5,7 @@ import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.compute.v1.InstanceClient;
 import com.google.cloud.compute.v1.InstanceSettings;
+import com.google.cloud.compute.v1.ProjectZoneInstanceName;
 import com.szjanikowski.mc.ZeroPeriodExceededAction;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
@@ -16,6 +17,9 @@ import java.io.IOException;
 @Singleton
 @Requires(env = Environment.GOOGLE_COMPUTE)
 public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
+
+	//oogle.api.pathtemplate.ValidationException: ProjectZoneInstanceName.parse: formattedString not in valid format: Parameter "8652063237409753691" must be in the form "{project=*}/zones/{zone=*}/instances/{instance=*}"
+	//        at io.reactivex.plugins.RxJavaPlugins.onError(RxJavaPlugins.java:367)
 
 	volatile InstanceClient instanceClient;
 
@@ -44,7 +48,11 @@ public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 	public void zeroPlayersPeriodExceededBy(int seconds) {
 		System.out.println("Period exceeded by " + seconds + " seconds");
 		if (instanceClient != null) {
-			instanceClient.stopInstance("8652063237409753691");
+			instanceClient.stopInstance(ProjectZoneInstanceName.newBuilder()
+					.setProject("j-minecraft-server")
+					.setZone("europe-west3-c")
+					.setInstance("mc-server")
+					.build());
 		} else {
 			System.out.println("Cannot stop! Not initialized instance client properly");
 		}
