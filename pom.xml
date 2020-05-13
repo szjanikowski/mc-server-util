@@ -31,14 +31,16 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.google.cloud</groupId>
+				<artifactId>libraries-bom</artifactId>
+				<version>5.3.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-		<dependency>
-			<groupId>io.micronaut.grpc</groupId>
-			<artifactId>micronaut-grpc-runtime</artifactId>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>io.micronaut</groupId>
 			<artifactId>micronaut-inject</artifactId>
@@ -52,6 +54,16 @@
 		<dependency>
 			<groupId>io.micronaut</groupId>
 			<artifactId>micronaut-runtime</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.micronaut</groupId>
+			<artifactId>micronaut-http-server-netty</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.micronaut</groupId>
+			<artifactId>micronaut-http-client</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -74,6 +86,10 @@
 			<groupId>io.micronaut.test</groupId>
 			<artifactId>micronaut-test-junit5</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-compute</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
@@ -116,36 +132,6 @@
 						<argument>${exec.mainClass}</argument>
 					</arguments>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.github.os72</groupId>
-				<artifactId>protoc-jar-maven-plugin</artifactId>
-				<version>3.6.0.2</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<addProtoSources>all</addProtoSources>
-							<includeMavenTypes>transitive</includeMavenTypes>
-							<includeStdTypes>true</includeStdTypes>
-							<inputDirectories>
-								<include>src/main/proto</include>
-							</inputDirectories>
-							<outputTargets>
-								<outputTarget>
-									<type>java</type>
-								</outputTarget>
-								<outputTarget>
-									<type>grpc-java</type>
-									<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.17.1</pluginArtifact>
-								</outputTarget>
-							</outputTargets>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 		<pluginManagement>

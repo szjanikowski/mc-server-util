@@ -1,4 +1,3 @@
-profile: grpc
 defaultPackage: com.szjanikowski.mc
 ---
 testFramework: junit
