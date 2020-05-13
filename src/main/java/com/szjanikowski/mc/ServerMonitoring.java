@@ -17,7 +17,7 @@ public class ServerMonitoring {
 		this.minecraftServerApi = minecraftServerApi;
 	}
 
-	@Scheduled(fixedRate = "1s")
+	@Scheduled(fixedRate = "5s")
 	public void checkForNumberOfPlayers() {
 		int numberOfPlayers = minecraftServerApi.getCurrentNumberOfPlayers();
 		numberOfPlayersOnServer.onNext(numberOfPlayers);

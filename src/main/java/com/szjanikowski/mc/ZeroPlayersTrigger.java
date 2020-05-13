@@ -10,8 +10,8 @@ public class ZeroPlayersTrigger {
 
 	public ZeroPlayersTrigger(ZeroPlayersPeriod zeroPlayersPeriod, ZeroPeriodExceededAction actions) {
 		zeroPlayersPeriod.getZeroPlayersPeriod()
-				.filter(time -> time > 10000)
+				.filter(time -> time > 40000)
 				.firstOrError()
-				.subscribe(time -> actions.zeroPlayersPeriodExceededBy(5));
+				.subscribe(time -> actions.zeroPlayersPeriodOf(40));
 	}
 }

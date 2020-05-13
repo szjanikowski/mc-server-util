@@ -18,9 +18,6 @@ import java.io.IOException;
 @Requires(env = Environment.GOOGLE_COMPUTE)
 public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 
-	//oogle.api.pathtemplate.ValidationException: ProjectZoneInstanceName.parse: formattedString not in valid format: Parameter "8652063237409753691" must be in the form "{project=*}/zones/{zone=*}/instances/{instance=*}"
-	//        at io.reactivex.plugins.RxJavaPlugins.onError(RxJavaPlugins.java:367)
-
 	volatile InstanceClient instanceClient;
 
 	@PostConstruct
@@ -45,7 +42,7 @@ public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 	}
 
 	@Override
-	public void zeroPlayersPeriodExceededBy(int seconds) {
+	public void zeroPlayersPeriodOf(int seconds) {
 		System.out.println("Period exceeded by " + seconds + " seconds");
 		if (instanceClient != null) {
 			instanceClient.stopInstance(ProjectZoneInstanceName.newBuilder()

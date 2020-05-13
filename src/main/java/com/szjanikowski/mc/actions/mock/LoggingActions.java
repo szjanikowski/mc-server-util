@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 @Requires(notEnv = Environment.GOOGLE_COMPUTE)
 public class LoggingActions implements ZeroPeriodExceededAction {
 	@Override
-	public void zeroPlayersPeriodExceededBy(int seconds) {
+	public void zeroPlayersPeriodOf(int seconds) {
 		System.out.println("Zero period exceeded by " + seconds + " seconds");
 	}
 }
