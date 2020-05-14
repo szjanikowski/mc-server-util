@@ -1,3 +1,9 @@
 micronaut:
   application:
     name: mcutil
+
+mcutil:
+  gcp:
+    project: _PROJECT_NAME_
+    zone: _ZONE_
+    instance: _INSTANCE_

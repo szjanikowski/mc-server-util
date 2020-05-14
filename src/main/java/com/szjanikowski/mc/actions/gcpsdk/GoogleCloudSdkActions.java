@@ -7,6 +7,7 @@ import com.google.cloud.compute.v1.InstanceClient;
 import com.google.cloud.compute.v1.InstanceSettings;
 import com.google.cloud.compute.v1.ProjectZoneInstanceName;
 import com.szjanikowski.mc.ZeroPeriodExceededAction;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 
@@ -18,7 +19,21 @@ import java.io.IOException;
 @Requires(env = Environment.GOOGLE_COMPUTE)
 public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 
+
+	private final String project;
+	private final String zone;
+	private final String instance;
+
 	volatile InstanceClient instanceClient;
+
+	public GoogleCloudSdkActions(
+			@Property(name="mcutil.gcp.project") String project,
+			@Property(name="mcutil.gcp.zone") String zone,
+			@Property(name="mcutil.gcp.instance") String instance) {
+		this.project = project;
+		this.zone = zone;
+		this.instance = instance;
+	}
 
 	@PostConstruct
 	void init() throws IOException {
