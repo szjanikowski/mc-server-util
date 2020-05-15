@@ -6,7 +6,7 @@ mcutil:
   checking:
     frequency: 30s
   trigger:
-    minutes: 1
+    minutes: 40
   gcp:
     project: _PROJECT_NAME_
     zone: _ZONE_

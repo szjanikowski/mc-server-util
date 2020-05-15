@@ -10,6 +10,8 @@ import com.szjanikowski.mc.ZeroPeriodExceededAction;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
@@ -18,6 +20,8 @@ import java.io.IOException;
 @Singleton
 @Requires(env = Environment.GOOGLE_COMPUTE)
 public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
+
+	private static final Logger LOG = LoggerFactory.getLogger(GoogleCloudSdkActions.class);
 
 	private final String project;
 	private final String zone;
@@ -37,7 +41,7 @@ public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 	@PostConstruct
 	void init() throws IOException {
 		this.instanceClient = createInstanceClient();
-		System.out.println("Successfully initialized instance client for GCP");
+		LOG.info("Successfully initialized instance client for GCP");
 	}
 
 	private InstanceClient createInstanceClient() throws IOException {
@@ -57,7 +61,7 @@ public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 
 	@Override
 	public void zeroPlayersPeriodOf(int minutes) {
-		System.out.println("Stopping instance after " + minutes + " minutes of zero players!");
+		LOG.info("Stopping instance after " + minutes + " minutes of zero players!");
 		if (instanceClient != null) {
 			instanceClient.stopInstance(ProjectZoneInstanceName.newBuilder()
 					.setProject(project)
@@ -65,7 +69,7 @@ public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 					.setInstance(instance)
 					.build());
 		} else {
-			System.out.println("Cannot stop! Not initialized instance client properly");
+			LOG.error("Cannot stop! Not initialized instance client properly");
 		}
 
 	}
