@@ -25,7 +25,7 @@ public class ServerMonitoring {
 	@Scheduled(fixedRate = "${mcutil.checking.frequency:20s}")
 	public void checkForNumberOfPlayers() {
 		int numberOfPlayers = minecraftServerApi.getCurrentNumberOfPlayers();
-		LOG.info("Number of players: " + numberOfPlayers);
+		LOG.trace("Number of players: " + numberOfPlayers);
 		numberOfPlayersOnServer.onNext(numberOfPlayers);
 	}
 
