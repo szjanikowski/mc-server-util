@@ -3,6 +3,10 @@ micronaut:
     name: mcutil
 
 mcutil:
+  checking:
+    frequency: 30s
+  trigger:
+    minutes: 1
   gcp:
     project: _PROJECT_NAME_
     zone: _ZONE_

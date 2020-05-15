@@ -1,17 +1,28 @@
 package com.szjanikowski.mc;
 
 import io.micronaut.context.annotation.Context;
+import io.micronaut.context.annotation.Property;
 
 
 @Context
 public class ZeroPlayersTrigger {
 
-	//TODO config of period
+	private static final int MINUTE = 1000 * 60;
+	private static final int DIVIDER = MINUTE * 10;
 
-	public ZeroPlayersTrigger(ZeroPlayersPeriod zeroPlayersPeriod, ZeroPeriodExceededAction actions) {
+	public ZeroPlayersTrigger(@Property(name = "mcutil.trigger.minutes") int triggerMinutes,
+							  ZeroPlayersPeriod zeroPlayersPeriod,
+							  ZeroPeriodExceededAction actions) {
+		System.out.println("Will trigger action after " + triggerMinutes + " minutes of zero players.");
+		zeroPlayersPeriod.getZeroPlayersPeriod().scan( (previousOne, newOne) -> {
+			if (previousOne / DIVIDER != newOne / DIVIDER) {
+				System.out.println("Zero players for more than " + newOne / (MINUTE) + " minutes.");
+			}
+			return newOne;
+		}).subscribe();
 		zeroPlayersPeriod.getZeroPlayersPeriod()
-				.filter(time -> time > 40000)
+				.filter(time -> time > triggerMinutes * MINUTE)
 				.firstOrError()
-				.subscribe(time -> actions.zeroPlayersPeriodOf(40));
+				.subscribe(time -> actions.zeroPlayersPeriodOf(triggerMinutes));
 	}
 }

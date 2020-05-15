@@ -17,11 +17,10 @@ public class ServerMonitoring {
 		this.minecraftServerApi = minecraftServerApi;
 	}
 
-	@Scheduled(fixedRate = "5s")
+	@Scheduled(fixedRate = "${mcutil.checking.frequency:20s}")
 	public void checkForNumberOfPlayers() {
 		int numberOfPlayers = minecraftServerApi.getCurrentNumberOfPlayers();
 		numberOfPlayersOnServer.onNext(numberOfPlayers);
-
 	}
 
 	public Observable<Integer> getNumberOfPlayersOnServer() {

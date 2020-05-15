@@ -19,7 +19,6 @@ import java.io.IOException;
 @Requires(env = Environment.GOOGLE_COMPUTE)
 public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 
-
 	private final String project;
 	private final String zone;
 	private final String instance;
@@ -57,13 +56,13 @@ public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 	}
 
 	@Override
-	public void zeroPlayersPeriodOf(int seconds) {
-		System.out.println("Period exceeded by " + seconds + " seconds");
+	public void zeroPlayersPeriodOf(int minutes) {
+		System.out.println("Stopping instance after " + minutes + " minutes of zero players!");
 		if (instanceClient != null) {
 			instanceClient.stopInstance(ProjectZoneInstanceName.newBuilder()
-					.setProject("j-minecraft-server")
-					.setZone("europe-west3-c")
-					.setInstance("mc-server")
+					.setProject(project)
+					.setZone(zone)
+					.setInstance(instance)
 					.build());
 		} else {
 			System.out.println("Cannot stop! Not initialized instance client properly");
