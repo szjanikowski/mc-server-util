@@ -1,10 +1,10 @@
-package com.szjanikowski.mc.monitoring.query;
+package com.szjanikowski.mc.filters.monitoring.query;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class QueryRequest
+class QueryRequest
 {
 	private ByteArrayOutputStream byteStream;
 	private DataOutputStream dataStream;

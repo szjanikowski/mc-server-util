@@ -1,4 +1,4 @@
-package com.szjanikowski.mc.monitoring.query;
+package com.szjanikowski.mc.filters.monitoring.query;
 
 import java.net.*;
 
@@ -7,7 +7,7 @@ import java.net.*;
  *
  * @author Ryan McCann
  */
-public class MCQuery
+class MCQuery
 {
 	final static byte HANDSHAKE = 9;
 	final static byte STAT = 0;

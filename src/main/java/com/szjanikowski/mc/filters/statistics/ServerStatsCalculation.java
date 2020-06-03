@@ -1,15 +1,14 @@
-package com.szjanikowski.mc;
+package com.szjanikowski.mc.filters.statistics;
 
-import io.micronaut.context.annotation.Context;
+import com.szjanikowski.mc.pipes.ServerState;
+import com.szjanikowski.mc.pipes.ServerStatistics;
 import io.reactivex.Observable;
 
-@Context
-public class ZeroPlayersPeriod {
+public class ServerStatsCalculation {
 
-	private final Observable<Long> zeroPlayersPeriod;
-
-	public ZeroPlayersPeriod(ServerMonitoring serverMonitoring) {
-		zeroPlayersPeriod = serverMonitoring.getNumberOfPlayersOnServer()
+	public Observable<ServerStatistics> transform(Observable<ServerState> serverStateObs) {
+		return serverStateObs
+				.map(ServerState::getNumberOfPlayers)
 				.timestamp()
 				.scan((startOfZeroPlayersPeriod, numberOfPlayersWithTime) ->
 						numberOfPlayersWithTime.value() > 0 ?
@@ -20,11 +19,7 @@ public class ZeroPlayersPeriod {
 					long currentTime = startOfZeroPlayersWithCurrentTime.time();
 					long timeOfZeroPlayersPeriodStart = startOfZeroPlayersWithCurrentTime.value().time();
 					return currentTime - timeOfZeroPlayersPeriodStart;
-				});
-
-	}
-
-	public Observable<Long> getZeroPlayersPeriod() {
-		return zeroPlayersPeriod;
+				})
+				.map(ServerStatistics::new);
 	}
 }

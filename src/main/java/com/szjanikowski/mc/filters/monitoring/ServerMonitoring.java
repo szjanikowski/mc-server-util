@@ -1,6 +1,6 @@
-package com.szjanikowski.mc;
+package com.szjanikowski.mc.filters.monitoring;
 
-import com.szjanikowski.mc.actions.gcpsdk.GoogleCloudSdkActions;
+import com.szjanikowski.mc.pipes.ServerState;
 import io.micronaut.scheduling.annotation.Scheduled;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -14,7 +14,7 @@ public class ServerMonitoring {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ServerMonitoring.class);
 
-	private final BehaviorSubject<Integer> numberOfPlayersOnServer = BehaviorSubject.create();
+	private final BehaviorSubject<ServerState> numberOfPlayersOnServer = BehaviorSubject.create();
 
 	private final MinecraftServerApi minecraftServerApi;
 
@@ -22,14 +22,15 @@ public class ServerMonitoring {
 		this.minecraftServerApi = minecraftServerApi;
 	}
 
-	@Scheduled(fixedRate = "${mcutil.checking.frequency:20s}")
+	//SOURCE
+	@Scheduled(fixedRate = "${mcutil.checking.frequency:30s}")
 	public void checkForNumberOfPlayers() {
 		int numberOfPlayers = minecraftServerApi.getCurrentNumberOfPlayers();
 		LOG.trace("Number of players: " + numberOfPlayers);
-		numberOfPlayersOnServer.onNext(numberOfPlayers);
+		numberOfPlayersOnServer.onNext(new ServerState(numberOfPlayers));
 	}
 
-	public Observable<Integer> getNumberOfPlayersOnServer() {
+	public Observable<ServerState> getServerStateObs() {
 		return numberOfPlayersOnServer;
 	}
 }

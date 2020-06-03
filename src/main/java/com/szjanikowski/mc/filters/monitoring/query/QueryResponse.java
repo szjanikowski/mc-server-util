@@ -1,8 +1,8 @@
-package com.szjanikowski.mc.monitoring.query;
+package com.szjanikowski.mc.filters.monitoring.query;
 
 import java.util.ArrayList;
 
-public class QueryResponse
+class QueryResponse
 {
 	static byte NULL = 00;
 	static byte SPACE = 20;

@@ -1,4 +1,4 @@
-package com.szjanikowski.mc.monitoring.query;
+package com.szjanikowski.mc.filters.monitoring.query;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  * @author Ryan McCann
  */
-public class ByteUtils
+class ByteUtils
 {
 	/**
 	 * Creates and returns a new array with the values of the original from index <code>a</code> to index <code>b</code>

@@ -1,4 +1,4 @@
-package com.szjanikowski.mc.actions.gcpsdk;
+package com.szjanikowski.mc.filters.reactions;
 
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.Credentials;
@@ -6,7 +6,6 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.compute.v1.InstanceClient;
 import com.google.cloud.compute.v1.InstanceSettings;
 import com.google.cloud.compute.v1.ProjectZoneInstanceName;
-import com.szjanikowski.mc.ZeroPeriodExceededAction;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
@@ -19,7 +18,7 @@ import java.io.IOException;
 
 @Singleton
 @Requires(env = Environment.GOOGLE_COMPUTE)
-public class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
+class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GoogleCloudSdkActions.class);
 
