@@ -4,7 +4,7 @@ import com.szjanikowski.mc.filters.monitoring.MinecraftServerApi;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 @Requires(notEnv = Environment.GOOGLE_COMPUTE)

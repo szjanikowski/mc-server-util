@@ -3,9 +3,9 @@ package com.szjanikowski.mc.filters.reactions;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.compute.v1.InstanceClient;
-import com.google.cloud.compute.v1.InstanceSettings;
-import com.google.cloud.compute.v1.ProjectZoneInstanceName;
+import com.google.cloud.compute.v1.InstancesClient;
+import com.google.cloud.compute.v1.InstancesSettings;
+import com.google.cloud.compute.v1.StopInstanceRequest;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
@@ -26,7 +26,7 @@ class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 	private final String zone;
 	private final String instance;
 
-	volatile InstanceClient instanceClient;
+	volatile InstancesClient instanceClient;
 
 	public GoogleCloudSdkActions(
 			@Property(name="mcutil.gcp.project") String project,
@@ -43,30 +43,31 @@ class GoogleCloudSdkActions implements ZeroPeriodExceededAction {
 		LOG.info("Successfully initialized instance client for GCP");
 	}
 
-	private InstanceClient createInstanceClient() throws IOException {
+	private InstancesClient createInstanceClient() throws IOException {
 		Credentials myCredentials = GoogleCredentials.getApplicationDefault();
-		String myEndpoint = InstanceSettings.getDefaultEndpoint();
+		String myEndpoint = InstancesSettings.getDefaultEndpoint();
 
-		InstanceSettings instanceSettings =
-				InstanceSettings.newBuilder()
+		InstancesSettings instanceSettings =
+				InstancesSettings.newBuilder()
 						.setCredentialsProvider(FixedCredentialsProvider.create(myCredentials))
 						.setTransportChannelProvider(
-								InstanceSettings.defaultHttpJsonTransportProviderBuilder()
+								InstancesSettings.defaultHttpJsonTransportProviderBuilder()
 										.setEndpoint(myEndpoint)
 										.build())
 						.build();
-		return InstanceClient.create(instanceSettings);
+		return InstancesClient.create(instanceSettings);
 	}
 
 	@Override
 	public void zeroPlayersPeriodOf(int minutes) {
 		LOG.info("Stopping instance after " + minutes + " minutes of zero players!");
 		if (instanceClient != null) {
-			instanceClient.stopInstance(ProjectZoneInstanceName.newBuilder()
+			StopInstanceRequest request = StopInstanceRequest.newBuilder()
 					.setProject(project)
 					.setZone(zone)
 					.setInstance(instance)
-					.build());
+					.build();
+			instanceClient.stopAsync(request);
 		} else {
 			LOG.error("Cannot stop! Not initialized instance client properly");
 		}
