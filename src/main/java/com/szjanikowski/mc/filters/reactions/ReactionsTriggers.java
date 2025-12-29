@@ -15,7 +15,7 @@ public class ReactionsTriggers {
 	private static final Logger LOG = LoggerFactory.getLogger(ReactionsTriggers.class);
 
 	private static final int MINUTE = 1000 * 60;
-	private static final int DIVIDER = MINUTE * 10;
+	private static final int DIVIDER = MINUTE * 2;
 	private final int triggerInMinutes;
 	private final ZeroPeriodExceededAction action;
 
